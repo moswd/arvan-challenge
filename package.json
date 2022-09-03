@@ -15,9 +15,11 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "vue": "^3.2.37"
   },
   "devDependencies": {
+    "@typescript-eslint/parser": "^5.36.1",
     "@vitejs/plugin-vue": "^3.0.3",
     "@vue/test-utils": "^2.0.2",
     "eslint": "^8.23.0",
