@@ -1,9 +1,9 @@
 import axios, { AxiosInstance } from 'axios'
-import { readToken } from '../../utils/token'
+import { readToken } from '@utils/token'
 import {
   formatErrorResponse,
   formatSuccessResponse
-} from '../interceptors/formatResponse.interceptor'
+} from '@interceptors/formatResponse.interceptor'
 
 const API_BASE_URL: string = import.meta.env.VITE_API_BASE_URL
 

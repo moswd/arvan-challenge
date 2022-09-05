@@ -1,16 +1,28 @@
-import { User } from '../core/models/user.model'
-import { LoginFlowDTO, RegisterFlowDTO } from '../core/repositories/user.dto'
-import { UserRepository } from '../core/repositories/user.repository'
-import { useApiAction } from './api.composable'
+import { User } from '@models/user.model'
+import { LoginFlowDTO, RegisterFlowDTO } from '@repositories/user.dto'
+import { UserRepository } from '@repositories/user.repository'
+import { useApiAction } from '@composables/api.composable'
 
 const userRepository = new UserRepository()
 
 export function useLogin() {
-  return useApiAction<LoginFlowDTO, User>(userRepository.login)
+  return useApiAction<LoginFlowDTO, User>(
+    userRepository.login,
+    (data: User) => {
+      console.log('--------- from composable')
+      console.log(data)
+    }
+  )
 }
 
 export function useRegister() {
-  return useApiAction<RegisterFlowDTO, User>(userRepository.register)
+  return useApiAction<RegisterFlowDTO, User>(
+    userRepository.register,
+    (data: User) => {
+      console.log('--------- from composable')
+      console.log(data)
+    }
+  )
 }
 
 // export function useLogin() {

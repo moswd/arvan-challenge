@@ -1,13 +1,13 @@
-import { createAxiosInstance } from '../clients/httpClient'
-import { ApiResponse } from '../models/api.model'
-import { User } from '../models/user.model'
+import { createAxiosInstance } from '@clients/httpClient'
+import { ApiResponse } from '@models/api.model'
+import { User } from '@models/user.model'
 import {
   AuthUserDTO,
   LoginFlowDTO,
   RegisterFlowDTO,
   toDomainUser,
   UserDTO
-} from './user.dto'
+} from '@repositories/user.dto'
 
 const BASE_PATH = '/api/users'
 

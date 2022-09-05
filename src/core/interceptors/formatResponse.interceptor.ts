@@ -1,5 +1,5 @@
 import { AxiosError, AxiosResponse } from 'axios'
-import { ApiResponse } from '../models/api.model'
+import { ApiResponse } from '@models/api.model'
 
 export function formatSuccessResponse(
   response: AxiosResponse

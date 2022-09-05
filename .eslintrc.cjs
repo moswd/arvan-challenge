@@ -6,7 +6,8 @@ module.exports = {
   plugins: ['@typescript-eslint'],
   rules: {
     'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': 'warn'
+    '@typescript-eslint/no-unused-vars': 'warn',
+    'vue/no-setup-props-destructure': 'off',
   },
   globals: {
     $ref: 'readonly',

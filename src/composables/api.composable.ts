@@ -1,13 +1,19 @@
 import { onUnmounted, UnwrapRef } from 'vue'
 import { RefValue } from 'vue/macros'
-import { ApiResponse } from '../core/models/api.model'
+import { ApiResponse } from '@models/api.model'
 
 export type ApiActionFn<T, U> = (
   input: T,
   signal: AbortSignal
 ) => Promise<ApiResponse<U>>
 
-export function useApiAction<T, U>(action: ApiActionFn<T, U>, notify = true) {
+export type ApiActionCallback<T> = (data: T) => any
+
+export function useApiAction<T, U>(
+  action: ApiActionFn<T, U>,
+  callback?: ApiActionCallback<U>,
+  notify = true
+) {
   let cancelController: AbortController | undefined
 
   let data = $ref<U | undefined>()
@@ -26,14 +32,16 @@ export function useApiAction<T, U>(action: ApiActionFn<T, U>, notify = true) {
 
       data = Object.assign({}, result.data) as RefValue<UnwrapRef<U>> // TODO: whyyy?
 
-      return result.data
+      if (callback) callback(result.data as U) // TODO: why???
+
+      return result.data // TODO: promise resolve?
     } catch (err) {
       if (notify) {
         console.log('==================== NOTIFY ======================')
         console.log(err) // TODO: should show a notification of cleaned up error
       }
 
-      return Promise.reject(err)
+      return Promise.reject(err) // TODO: do we need this?
     } finally {
       loading = false
     }
