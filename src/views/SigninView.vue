@@ -1,10 +1,17 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
+import { useRouter } from 'vue-router'
 import useVuelidate from '@vuelidate/core'
 import { required, email } from '@vuelidate/validators'
+import { useUserStore } from '@store/useStore'
 import { useLogin } from '@composables/user.composable'
 import BaseInput from '@components/BaseInput.vue'
 import BaseButton from '@components/BaseButton.vue'
+import { User } from '@models/user.model'
+
+const router = useRouter()
+
+const { setCreds } = $(useUserStore())
 
 const creds = reactive({
   email: '',
@@ -30,21 +37,29 @@ const passwordErrors = $computed(() =>
     : []
 )
 
-const { attempt: login, loading: inProcess, data, abortController } = useLogin() // TODO: either use login or signin / register signup
+const { attempt: login, loading: inProcess, data } = $(useLogin()) // TODO: either use login or signin / register signup
 
 async function submit() {
-  console.log(inProcess.value) // TODO: should convert to $ . solve now
-  if (inProcess.value) return // double check
+  console.log(inProcess) // TODO: should convert to $ . solve now
+  if (inProcess) return // double check
 
   const credsValid = await validator.value.$validate()
   if (!credsValid) return
 
-  console.log('asdfasdf')
+  try {
+    await login({
+      user: {
+        email: creds.email,
+        password: creds.password
+      }
+    })
 
-  // try {
-  //   await login({ user: { email: creds.email, password: creds.password } })
-  // console.log(data)
-  // } catch (e) {}
+    setCreds(data as User) // TODO: why convert to User?
+
+    router.push({ name: 'Dashboard' })
+  } catch (err) {
+    console.log(err)
+  }
 }
 </script>
 

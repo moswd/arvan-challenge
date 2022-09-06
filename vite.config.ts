@@ -21,6 +21,7 @@ export default defineConfig({
       '@models': path.resolve(__dirname, './src/core/models'),
       '@repositories': path.resolve(__dirname, './src/core/repositories'),
       '@composables': path.resolve(__dirname, './src/composables'),
+      '@store': path.resolve(__dirname, './src/store'),
       '@utils': path.resolve(__dirname, './src/utils')
     }
   }

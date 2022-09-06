@@ -15,6 +15,7 @@ module.exports = {
     $shallowRef: 'readonly',
     $customRef: 'readonly',
     $toRef: 'readonly',
-    $$: 'readonly'
+    $$: 'readonly',
+    $: 'readonly'
   }
 }

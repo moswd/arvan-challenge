@@ -17,6 +17,6 @@ export function formatErrorResponse(
   return Promise.reject({
     successful: false,
     timestamp: new Date(),
-    errors: error.response?.data
+    errors: (error.response?.data as any).errors // TODO: fix type
   })
 }

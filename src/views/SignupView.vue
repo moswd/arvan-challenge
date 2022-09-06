@@ -1,21 +1,29 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
+import { faker } from '@faker-js/faker'
 import useVuelidate from '@vuelidate/core'
-import { required, email } from '@vuelidate/validators'
+import { required, email as emailValidator } from '@vuelidate/validators'
+import { useUserStore } from '@store/useStore'
 import { useRegister } from '@composables/user.composable'
 import BaseInput from '@components/BaseInput.vue'
 import BaseButton from '@components/BaseButton.vue'
+import { User } from '@models/user.model'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const { setCreds } = $(useUserStore())
 
 // TODO: form validation composable
 
 const creds = reactive({
-  email: '',
-  username: '',
-  password: ''
+  email: faker.internet.email(),
+  username: faker.internet.userName(),
+  password: '12345678'
 })
 
 const credsRules = {
-  email: { required, email },
+  email: { required, emailValidator },
   username: { required },
   password: { required }
 }
@@ -41,11 +49,11 @@ const passwordErrors = $computed(() =>
     : []
 )
 
-const { attempt: register, loading: inProcess, data } = useRegister() // TODO: either use login or signin / register signup
+const { attempt: register, loading: inProcess, data } = $(useRegister()) // TODO: either use login or signin / register signup
 
 async function submit() {
-  console.log(inProcess.value) // TODO: should convert to $ . solve now
-  if (inProcess.value) return // double check
+  console.log(inProcess) // TODO: should convert to $ . solve now
+  if (inProcess) return // double check
 
   const credsValid = await validator.value.$validate()
   if (!credsValid) return
@@ -59,7 +67,9 @@ async function submit() {
       }
     })
 
-    console.log(data)
+    setCreds(data as User)
+
+    router.push({ name: 'Dashboard' })
   } catch (err) {
     console.log(err)
   }

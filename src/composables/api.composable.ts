@@ -1,6 +1,8 @@
 import { onUnmounted, UnwrapRef } from 'vue'
 import { RefValue } from 'vue/macros'
+import { useToast } from 'vue-toastification'
 import { ApiResponse } from '@models/api.model'
+import { parseErrors } from '@utils/parseErrors'
 
 export type ApiActionFn<T, U> = (
   input: T,
@@ -35,10 +37,15 @@ export function useApiAction<T, U>(
       if (callback) callback(result.data as U) // TODO: why???
 
       return result.data // TODO: promise resolve?
-    } catch (err) {
+    } catch (err: any) {
+      const toast = useToast()
+
+      // TODO: fix
       if (notify) {
-        console.log('==================== NOTIFY ======================')
-        console.log(err) // TODO: should show a notification of cleaned up error
+        // TODO: should show a notification of cleaned up error
+        // TODO: what else?
+        if (err?.errors)
+          parseErrors(err.errors).forEach((err) => toast.error(err))
       }
 
       return Promise.reject(err) // TODO: do we need this?
@@ -51,10 +58,10 @@ export function useApiAction<T, U>(
     cancelController?.abort()
   })
 
-  return {
+  return $$({
     attempt,
-    loading: $$(loading),
-    data: $$(data), // TODO: ha?
+    loading,
+    data,
     abortController: cancelController
-  }
+  })
 }

@@ -21,6 +21,7 @@
       "@repositories/*": ["./src/core/repositories/*"],
       "@core/*": ["./src/core/*"],
       "@composables/*": ["./src/composables/*"],
+      "@store/*": ["./src/store/*"],
       "@utils/*": ["./src/utils/*"],
       "@/*": ["./src/*"]
     },

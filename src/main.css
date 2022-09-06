@@ -13,3 +13,16 @@ body, #app {
 a {
   @apply text-cyan-700;
 }
+
+/* TODO: should not be here */
+.Vue-Toastification__toast {
+  @apply shadow-none border rounded-md p-2.5 min-h-0;
+}
+
+.Vue-Toastification__toast--error {
+  @apply bg-red-100 text-red-800 border-red-200;
+}
+
+.Vue-Toastification__toast-body {
+  @apply flex items-center;
+}
