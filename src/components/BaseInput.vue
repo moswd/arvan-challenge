@@ -37,7 +37,9 @@ const hasError = $computed(() => !!errors?.length)
 
 <template>
   <div class="flex flex-col" :class="containerClasses">
-    <label v-if="label" :for="id" class="mb-2">{{ label }}</label>
+    <label v-if="label" :for="id" class="mb-2 text-gray-600 text-sm">
+      {{ label }}
+    </label>
 
     <textarea
       v-if="type === 'textarea'"

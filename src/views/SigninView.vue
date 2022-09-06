@@ -2,9 +2,9 @@
 import { reactive } from 'vue'
 import useVuelidate from '@vuelidate/core'
 import { required, email } from '@vuelidate/validators'
+import { useLogin } from '@composables/user.composable'
 import BaseInput from '@components/BaseInput.vue'
 import BaseButton from '@components/BaseButton.vue'
-import { useLogin } from '@composables/user.composable'
 
 const creds = reactive({
   email: '',
@@ -50,7 +50,7 @@ async function submit() {
 
 <template>
   <div class="max-w-md mx-auto min-h-screen flex justify-center items-center">
-    <div class="w-full p-6 bg-gray-100 rounded-lg">
+    <div class="w-full p-6 bg-gray-50 rounded-lg shadow border border-gray-100">
       <h1 class="text-center text-4xl mt-4 mb-8 text-gray-500">Login</h1>
 
       <base-input
@@ -86,5 +86,3 @@ async function submit() {
     </div>
   </div>
 </template>
-
-<style scoped></style>
