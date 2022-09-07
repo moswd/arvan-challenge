@@ -13,7 +13,12 @@ export const useUserStore = defineStore(
       token = user.token
     }
 
-    return $$({ username, token, setCreds }) // TODO: $$?
+    function removeCreds() {
+      username = undefined
+      token = undefined
+    }
+
+    return $$({ username, token, setCreds, removeCreds }) // TODO: $$?
   },
 
   {

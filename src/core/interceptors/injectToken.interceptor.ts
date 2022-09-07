@@ -1,4 +1,4 @@
-import { useUserStore } from '@store/useStore'
+import { useUserStore } from '@store/user'
 import { AxiosRequestConfig } from 'axios'
 
 export function injectToken(config: AxiosRequestConfig): AxiosRequestConfig {

@@ -1,13 +1,45 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import { authGaurd } from '@/router/gaurds'
+import { useUserStore } from '@store/user'
 import Signin from '@/views/SigninView.vue'
 import Signup from '@/views/SignupView.vue'
 import Dashboard from '@/views/DashboardView.vue'
+import Articles from '@/views/ArticlesView.vue'
+import ArticlesBuilder from '@/views/ArticlesBuilderView.vue'
 
 const routes: RouteRecordRaw[] = [
-  { name: 'Dashboard', path: '/', component: Dashboard },
+  {
+    name: 'Dashboard',
+    path: '/',
+    component: Dashboard,
+    children: [
+      { name: 'Articles', path: 'articles', component: Articles },
+      {
+        name: 'CreateArticles',
+        path: 'articles/create',
+        component: ArticlesBuilder
+      },
+      {
+        name: 'UpdateArticles',
+        path: 'articles/:id/update',
+        component: ArticlesBuilder
+      } // TODO: what case should namings have?
+    ]
+  },
   { name: 'Signin', path: '/signin', component: Signin },
-  { name: 'Signup', path: '/signup', component: Signup }
+  { name: 'Signup', path: '/signup', component: Signup },
+  {
+    // TODO: logout needs refactor
+    name: 'Logout',
+    path: '/logout',
+    beforeEnter() {
+      const { removeCreds } = useUserStore()
+
+      removeCreds()
+
+      return { name: 'Signin' }
+    }
+  } as unknown as RouteRecordRaw // TODO: fix this
 ]
 
 const router = createRouter({

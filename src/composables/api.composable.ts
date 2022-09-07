@@ -11,7 +11,7 @@ export type ApiActionFn<T, U> = (
 
 export type ApiActionCallback<T> = (data: T) => any
 
-export function useApiAction<T, U>(
+export function useApi<T, U>(
   action: ApiActionFn<T, U>,
   callback?: ApiActionCallback<U>,
   notify = true

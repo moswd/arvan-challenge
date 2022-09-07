@@ -1,4 +1,4 @@
-import { useUserStore } from '@store/useStore'
+import { useUserStore } from '@store/user'
 import { RouteLocationNormalized } from 'vue-router'
 
 export function authGaurd(to: RouteLocationNormalized) {
