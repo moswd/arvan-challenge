@@ -11,17 +11,18 @@ const routes: RouteRecordRaw[] = [
   {
     name: 'Dashboard',
     path: '/',
+    redirect: { name: 'Articles' },
     component: Dashboard,
     children: [
       { name: 'Articles', path: 'articles', component: Articles },
       {
-        name: 'CreateArticles',
+        name: 'CreateArticle',
         path: 'articles/create',
         component: ArticlesBuilder
       },
       {
-        name: 'UpdateArticles',
-        path: 'articles/:id/update',
+        name: 'UpdateArticle',
+        path: 'articles/:slug/update',
         component: ArticlesBuilder
       } // TODO: what case should namings have?
     ]

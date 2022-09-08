@@ -52,7 +52,6 @@ const passwordErrors = $computed(() =>
 const { attempt: register, loading: inProcess, data } = $(useRegister()) // TODO: either use login or signin / register signup
 
 async function submit() {
-  console.log(inProcess) // TODO: should convert to $ . solve now
   if (inProcess) return // double check
 
   const credsValid = await validator.value.$validate()
@@ -118,7 +117,7 @@ async function submit() {
 
       <p class="mt-4 text-sm text-gray-600">
         Already registered?
-        <router-link to="/signin">Login</router-link>
+        <router-link :to="{ name: 'Signin' }">Login</router-link>
       </p>
     </div>
   </div>

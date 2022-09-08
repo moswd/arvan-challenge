@@ -1,14 +1,18 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useUserStore } from '@store/user'
+
+const { username } = useUserStore()
+</script>
 
 <!-- TODO: this should be layout -->
 <template>
-  <header class="fixed w-full h-16 bg-gray-700 px-4 flex items-center">
+  <header class="fixed z-30 w-full h-16 bg-gray-700 px-4 flex items-center">
     <h1 class="text-white text-2xl text-bold">Arvan Challenge</h1>
-    <span class="text-white ml-4">Welcome test</span>
+    <span class="text-white ml-4">Welcome {{ username }}</span>
 
     <router-link
       class="border border-blue-500 px-4 py-2 text-blue-400 rounded-md ml-auto"
-      to="/logout"
+      :to="{ name: 'Logout' }"
       >Logout</router-link
     >
   </header>
@@ -20,13 +24,13 @@
       <nav class="mt-2">
         <ul>
           <li>
-            <router-link to="/articles" class="block px-4 py-2"
+            <router-link :to="{ name: 'Articles' }" class="block px-4 py-2"
               >All Articles</router-link
             >
           </li>
 
           <li>
-            <router-link to="/articles/create" class="block px-4 py-2"
+            <router-link :to="{ name: 'CreateArticle' }" class="block px-4 py-2"
               >New Article</router-link
             >
           </li>

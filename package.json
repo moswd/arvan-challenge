@@ -22,7 +22,8 @@
     "pinia-plugin-persistedstate": "^2.1.1",
     "vue": "^3.2.37",
     "vue-router": "4",
-    "vue-toastification": "^2.0.0-rc.5"
+    "vue-toastification": "^2.0.0-rc.5",
+    "vue-universal-modal": "^1.1.4"
   },
   "devDependencies": {
     "@faker-js/faker": "^7.5.0",

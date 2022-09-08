@@ -16,12 +16,15 @@ export function useApi<T, U>(
   callback?: ApiActionCallback<U>,
   notify = true
 ) {
-  let cancelController: AbortController | undefined
+  let cancelController = $ref<AbortController | undefined>()
 
   let data = $ref<U | undefined>()
   let loading = $ref(false)
 
   async function attempt(input: T, abortController?: AbortController) {
+    // TODO: probably should not be done here
+    // if (cancelController) cancelController.abort()
+
     cancelController =
       abortController && !abortController.signal.aborted
         ? abortController

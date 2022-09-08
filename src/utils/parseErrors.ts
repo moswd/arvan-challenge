@@ -6,7 +6,7 @@ export function parseErrors(errorMap: ApiErrorMap): string[] {
 
   Object.entries(errorMap).forEach(([key, errorList]) => {
     errorList.forEach((err) => {
-      errors.push(capitalize(`${key} ${err}`))
+      errors.push(key === 'message' ? err : capitalize(`${key} ${err}`))
     })
   })
 

@@ -8,6 +8,7 @@ html {
 
 body, #app {
   min-height: 100vh;
+  @apply text-gray-700;
 }
 
 a {
@@ -21,6 +22,10 @@ a {
 
 .Vue-Toastification__toast--error {
   @apply bg-red-100 text-red-800 border-red-200;
+}
+
+.Vue-Toastification__toast--success {
+  @apply bg-emerald-100 text-emerald-800 border-emerald-200;
 }
 
 .Vue-Toastification__toast-body {

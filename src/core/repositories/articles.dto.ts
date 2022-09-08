@@ -24,7 +24,8 @@ export function toDomainArticle(dto: ArticleDTO): Article {
     ...dto,
     createdAt: new Date(dto.createdAt),
     updatedAt: new Date(dto.updatedAt),
-    author: toDomainAuthor(dto.author)
+    author: toDomainAuthor(dto.author),
+    tagList: dto.tagList.sort()
   }
 }
 
@@ -52,4 +53,23 @@ export function toDomainPaginatedArticles(
     articles: dto.articles.map((article) => toDomainArticle(article)),
     articlesCount: dto.articlesCount
   }
+}
+
+export interface CreateArticleDTO {
+  title: string
+  description: string
+  body: string
+  tagList: string[]
+}
+
+export type UpdateArticleDTO = Omit<CreateArticleDTO, 'tagList'>
+
+export interface UpdateArticleParams {
+  slug: string
+  article: UpdateArticleDTO
+}
+
+// TODO: fix namings
+export interface SingleArticleResponse {
+  article: ArticleDTO
 }

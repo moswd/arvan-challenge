@@ -47,6 +47,8 @@ const hasError = $computed(() => !!errors?.length)
       v-model="value"
       v-bind="$attrs"
       :name="id"
+      class="h-10 border rounded-md p-2 text-gray-700 outline-none focus:ring-1 transition"
+      :class="{ 'ring-1 ring-red-300': hasError }"
     ></textarea>
 
     <input

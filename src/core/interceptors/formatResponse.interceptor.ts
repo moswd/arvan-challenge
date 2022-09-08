@@ -14,9 +14,16 @@ export function formatSuccessResponse(
 export function formatErrorResponse(
   error: AxiosError
 ): Promise<ApiResponse<unknown>> {
+  // TODO: fix type
+  const apiErrors = (error.response?.data as any).errors
+  const message = (error.response?.data as any).message
+
   return Promise.reject({
     successful: false,
     timestamp: new Date(),
-    errors: (error.response?.data as any).errors // TODO: fix type
+    // TODO: need better error handling
+    errors: apiErrors
+      ? apiErrors
+      : { message: [message ? message : 'Unknown error'] }
   })
 }

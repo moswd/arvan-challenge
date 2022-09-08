@@ -2102,6 +2102,11 @@ vue-tsc@^0.39.5:
     "@volar/vue-language-core" "0.39.5"
     "@volar/vue-typescript" "0.39.5"
 
+vue-universal-modal@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/vue-universal-modal/-/vue-universal-modal-1.1.4.tgz#f6c2ba7a40d5911b4a5391650856ee1ace4fb3eb"
+  integrity sha512-MCSVz5bS614LfbDzo2/VDu0DWVUAQws00aPourSduGTzhbm0SpvmRJX/mUI/a+2LkJdcchHd2jpH0JK5Mh0rHg==
+
 vue@^3.2.37:
   version "3.2.38"
   resolved "https://registry.yarnpkg.com/vue/-/vue-3.2.38.tgz#cda3a414631745b194971219318a792dbbccdec0"
