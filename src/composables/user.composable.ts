@@ -1,26 +1,19 @@
 import { useToast } from 'vue-toastification'
 import { User } from '@models/user.model'
-import { LoginFlowDTO, RegisterFlowDTO } from '@repositories/user.dto'
-import { UserRepository } from '@repositories/user.repository'
+import { LoginFlowDTO, RegisterFlowDTO } from '@repositories/users.dto'
+import { UsersRepository } from '@repositories/users.repository'
 import { useApi } from '@composables/api.composable'
-import { useUserStore } from '@store/user'
 
-const userRepository = new UserRepository()
+const usersRepository = new UsersRepository()
 
 export function useLogin() {
-  return useApi<LoginFlowDTO, User>(userRepository.login, () => {
-    const { username } = useUserStore()
-    const toast = useToast() // TODO: should we provide this in app?
-
-    toast.success(`Welcome ${username}`, { timeout: 2000 }) // TODO: keep all messages in the same place
+  return useApi<LoginFlowDTO, User>(usersRepository.login, (user) => {
+    useToast().success(`Welcome ${user!.username}`, { timeout: 2000 })
   })
 }
 
 export function useRegister() {
-  return useApi<RegisterFlowDTO, User>(userRepository.register, () => {
-    const { username } = useUserStore()
-    const toast = useToast() // TODO: should we provide this in app?
-
-    toast.success(`Welcome ${username}`, { timeout: 2000 }) // TODO: keep all messages in the same place
+  return useApi<RegisterFlowDTO, User>(usersRepository.register, (user) => {
+    useToast().success(`Welcome ${user!.username}`, { timeout: 2000 })
   })
 }

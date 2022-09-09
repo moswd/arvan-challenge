@@ -1,7 +1,7 @@
 import { Paginated } from '@models/api.model'
 import { Article, Author, PaginatedArticles } from '@models/articles.model'
 
-export interface ArticlesParams {
+export interface GetArticlesParams {
   offset: number
   limit: number
 }
@@ -46,9 +46,7 @@ export function toDomainAuthor(dto: AuthorDTO): Author {
 
 export type PaginatedArticlesDTO = Paginated<ArticleDTO[], 'articles'>
 
-export function toDomainPaginatedArticles(
-  dto: PaginatedArticlesDTO
-): PaginatedArticles {
+export function toDomainPaginatedArticles(dto: PaginatedArticlesDTO): PaginatedArticles {
   return {
     articles: dto.articles.map((article) => toDomainArticle(article)),
     articlesCount: dto.articlesCount
@@ -69,7 +67,6 @@ export interface UpdateArticleParams {
   article: UpdateArticleDTO
 }
 
-// TODO: fix namings
 export interface SingleArticleResponse {
   article: ArticleDTO
 }

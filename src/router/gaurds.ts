@@ -6,12 +6,12 @@ export function authGaurd(to: RouteLocationNormalized) {
   const { token } = useUserStore()
 
   if (token) {
-    if (routeName === 'Signin' || routeName === 'Signup') {
+    if (routeName === 'Login' || routeName === 'Register') {
       return { name: 'Dashboard' }
     }
   } else {
-    if (routeName !== 'Signin' && routeName !== 'Signup') {
-      return { name: 'Signin' }
+    if (routeName !== 'Login' && routeName !== 'Register') {
+      return { name: 'Login' }
     }
   }
 }

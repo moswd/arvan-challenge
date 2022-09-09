@@ -4,11 +4,7 @@ import { useRouter } from 'vue-router'
 import { faker } from '@faker-js/faker'
 import useVuelidate from '@vuelidate/core'
 import { required } from '@vuelidate/validators'
-import {
-  useGetArticleBySlug,
-  useCreateArticle,
-  useUpdateArticle
-} from '@composables/articles.composable'
+import { useGetArticleBySlug, useCreateArticle, useUpdateArticle } from '@composables/articles.composable'
 import BaseInput from '@components/base/BaseInput.vue'
 import BaseButton from '@components/base/BaseButton.vue'
 import BaseCheckbox from '@components/base/BaseCheckbox.vue'
@@ -16,85 +12,62 @@ import BaseSpinner from '@components/base/BaseSpinner.vue'
 
 const router = useRouter()
 
-const {
-  attempt: getArticleBySlug,
-  loading: getArticleBySlugLoading,
-  data: articleToUpdate
-} = $(useGetArticleBySlug())
+const { attempt: getArticleBySlug, loading: getArticleBySlugLoading, data: articleToUpdate } = $(useGetArticleBySlug())
 
-const {
-  attempt: createArticle,
-  loading: createArticleLoading,
-  abortController: createArticleAbortController
-} = $(useCreateArticle())
+const { attempt: createArticle, loading: createArticleLoading } = $(useCreateArticle())
 
-const {
-  attempt: updateArticle,
-  loading: updateArticleLoading,
-  abortController: updateArticleAbortController
-} = $(useUpdateArticle())
+const { attempt: updateArticle, loading: updateArticleLoading } = $(useUpdateArticle())
 
-// TODO: order of code script
-let updateSlug = $computed(() => router.currentRoute.value.params?.slug) // TODO: check type
-
-let newTag = $ref('')
+let updateSlug = $computed(() => router.currentRoute.value.params?.slug)
 
 const article = reactive({
   title: '',
   desc: '',
   body: '',
-  tags: [] as string[], // TODO: maybe an interface for object?
-  selectedTags: [] as string[] // TODO: maybe an interface for object?
+  newTag: '',
+  tags: [] as string[],
+  selectedTags: [] as string[]
 })
 
 const articleRules = {
   title: { required },
   desc: { required },
   body: { required },
+  newTag: {},
   tags: {},
   selectedTags: {}
 }
 
-const validator = useVuelidate(articleRules, article)
+const validator = $(useVuelidate(articleRules, article))
 
-const titleErrors = $computed(() =>
-  validator.value.title.$error
-    ? validator.value.title.$errors.map((err) => err.$message)
-    : []
-)
+const titleErrors = $computed(() => validator.title.$errors.map((err) => err.$message))
 
-const descErrors = $computed(() =>
-  validator.value.desc.$error
-    ? validator.value.desc.$errors.map((err) => err.$message)
-    : []
-)
+const descErrors = $computed(() => validator.desc.$errors.map((err) => err.$message))
 
-const bodyErrors = $computed(() =>
-  validator.value.body.$error
-    ? validator.value.body.$errors.map((err) => err.$message)
-    : []
-)
+const bodyErrors = $computed(() => validator.body.$errors.map((err) => err.$message))
 
 function addTag() {
-  if (!newTag || article.tags.includes(newTag)) return
+  if (!article.newTag) return
 
-  article.tags.push(newTag)
-  article.selectedTags.push(newTag)
+  if (!article.selectedTags.includes(article.newTag)) {
+    article.selectedTags.push(article.newTag)
+  }
 
-  newTag = ''
+  if (!article.tags.includes(article.newTag)) {
+    article.tags.push(article.newTag)
+  }
+
+  article.newTag = ''
 }
 
 async function submit() {
-  const credsValid = await validator.value.$validate()
+  const credsValid = await validator.$validate()
   if (!credsValid) return
-
-  createArticleAbortController?.abort()
-  updateArticleAbortController?.abort()
 
   try {
     if (updateSlug) {
       await updateArticle({
-        slug: updateSlug as string, // TODO: remove as
+        slug: updateSlug as string,
         article: {
           title: article.title,
           description: article.desc,
@@ -112,8 +85,7 @@ async function submit() {
 
     router.push({ name: 'Articles' })
   } catch (err) {
-    // TODO: log somewhere -- sentry?
-    console.log(err)
+    console.error(err)
   }
 }
 
@@ -141,9 +113,9 @@ async function fetchArticleToUpdate() {
 
   if (updateSlug) {
     try {
-      await getArticleBySlug(updateSlug as string) // TODO: why string[]
+      await getArticleBySlug(updateSlug as string)
 
-      article.title = articleToUpdate?.title ?? '' // TODO: remove checks
+      article.title = articleToUpdate?.title ?? ''
       article.desc = articleToUpdate?.description ?? ''
       article.body = articleToUpdate?.body ?? ''
       article.tags = articleToUpdate?.tagList.slice() ?? []
@@ -154,42 +126,41 @@ async function fetchArticleToUpdate() {
   }
 }
 
+let fetchingArticleToUpdate = $computed(() => updateSlug && getArticleBySlugLoading)
+
+let actionInProcess = $computed(() => createArticleLoading || updateArticleLoading)
+
 onMounted(fetchArticleToUpdate)
 watch($$(updateSlug), fetchArticleToUpdate)
 </script>
 
 <template>
-  <div class="p-8">
-    <div class="mb-4 flex items-center">
-      <!-- TODO: what about h1 -->
-      <h2 class="text-4xl">{{ updateSlug ? 'Edit' : 'New' }} Article</h2>
-
-      <base-spinner
-        v-if="updateSlug && getArticleBySlugLoading"
-        class="h-6 w-6 ml-2"
-      ></base-spinner>
+  <div class="p-4 lg:p-8">
+    <div class="mt-4 lg:mt-0 mb-8 flex justify-center sm:justify-start items-center">
+      <h1 class="text-3xl sm:text-4xl font-light text-gray-500">{{ updateSlug ? 'Edit' : 'New' }} Article</h1>
+      <base-spinner v-if="fetchingArticleToUpdate" class="h-6 w-6 ml-2"></base-spinner>
 
       <base-button
         v-if="!updateSlug && !createArticleLoading"
         type="clear"
-        class="text-sm px-2 h-8 rounded-md bg-gray-100 ml-2"
+        class="px-2 bg-gray-100 ml-2"
         @click="randomize"
-        >Randomize!</base-button
       >
+        Randomize!
+      </base-button>
     </div>
 
-    <div class="flex gap-4">
-      <div class="w-2/3">
+    <div class="flex flex-col order sm:flex-row gap-4">
+      <div class="w-full sm:w-2/3">
         <base-input
           id="email"
           v-model="article.title"
           type="text"
           label="Title"
           placeholder="Title"
-          :disabled="updateSlug && getArticleBySlugLoading"
+          :disabled="fetchingArticleToUpdate"
           :errors="(titleErrors as string[])"
         ></base-input>
-        <!-- TODO: extract updateSlug && getArticleBySlugLoading to a computed -->
 
         <base-input
           id="desc"
@@ -198,7 +169,7 @@ watch($$(updateSlug), fetchArticleToUpdate)
           label="Description"
           placeholder="Description"
           container-classes="mt-4"
-          :disabled="updateSlug && getArticleBySlugLoading"
+          :disabled="fetchingArticleToUpdate"
           :errors="(descErrors as string[])"
         ></base-input>
 
@@ -208,30 +179,17 @@ watch($$(updateSlug), fetchArticleToUpdate)
           type="textarea"
           label="Body"
           placeholder="Body"
-          class="h-80"
+          class="h-64"
           container-classes="mt-4"
-          :disabled="updateSlug && getArticleBySlugLoading"
+          :disabled="fetchingArticleToUpdate"
           :errors="(bodyErrors as string[])"
         ></base-input>
-
-        <!-- TODO: extract createArticleLoading || updateArticleLoading || getArticleBySlugLoading to computed -->
-        <base-button
-          :disabled="
-            createArticleLoading ||
-            updateArticleLoading ||
-            getArticleBySlugLoading
-          "
-          :loading="createArticleLoading || updateArticleLoading"
-          class="mt-4 px-4"
-          @click="submit"
-          >Submit</base-button
-        >
       </div>
 
-      <div class="w-1/3">
+      <div class="w-full sm:w-1/3">
         <base-input
           id="body"
-          v-model="newTag"
+          v-model="article.newTag"
           type="text"
           label="Tags"
           placeholder="New Tag"
@@ -239,11 +197,7 @@ watch($$(updateSlug), fetchArticleToUpdate)
           @keyup.enter="addTag"
         ></base-input>
 
-        <!-- TODO: maybe add validation message for already existing tags -->
-        <div
-          v-if="article.tags.length"
-          class="border mt-4 py-2 px-4 rounded-md"
-        >
+        <div v-if="article.tags.length" class="border mt-4 py-2 px-4 rounded">
           <base-checkbox
             v-for="tag in article.tags"
             :id="`${tag}-tag-checkbox`"
@@ -256,5 +210,14 @@ watch($$(updateSlug), fetchArticleToUpdate)
         </div>
       </div>
     </div>
+
+    <base-button
+      :disabled="actionInProcess || getArticleBySlugLoading"
+      :loading="actionInProcess"
+      class="mt-4 px-4"
+      @click="submit"
+    >
+      Submit
+    </base-button>
   </div>
 </template>

@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import { authGaurd } from '@/router/gaurds'
 import { useUserStore } from '@store/user'
-import Signin from '@/views/SigninView.vue'
-import Signup from '@/views/SignupView.vue'
-import Dashboard from '@/views/DashboardView.vue'
+import Login from '@/views/LoginView.vue'
+import Register from '@/views/RegisterView.vue'
+import DashboardLayout from '@/layouts/DashboardLayout.vue'
 import Articles from '@/views/ArticlesView.vue'
 import ArticleBuilder from '@/views/ArticleBuilderView.vue'
 
@@ -12,33 +12,55 @@ const routes: RouteRecordRaw[] = [
     name: 'Dashboard',
     path: '/',
     redirect: { name: 'Articles' },
-    component: Dashboard,
+    component: DashboardLayout,
     children: [
-      { name: 'Articles', path: 'articles', component: Articles },
+      {
+        name: 'Articles',
+        path: 'articles',
+        component: Articles
+      },
+
       {
         name: 'CreateArticle',
         path: 'articles/create',
         component: ArticleBuilder
       },
+
       {
         name: 'UpdateArticle',
         path: 'articles/:slug/update',
         component: ArticleBuilder
-      } // TODO: what case should namings have?
+      }
     ]
   },
-  { name: 'Signin', path: '/signin', component: Signin },
-  { name: 'Signup', path: '/signup', component: Signup },
+
   {
-    // TODO: logout needs refactor
+    name: 'Login',
+    path: '/login',
+    component: Login
+  },
+
+  {
+    name: 'Register',
+    path: '/register',
+    component: Register
+  },
+
+  {
     name: 'Logout',
     path: '/logout',
     beforeEnter() {
       const { removeCreds } = useUserStore()
       removeCreds()
-      return { name: 'Signin' }
+      return { name: 'Login' }
     }
-  } as unknown as RouteRecordRaw // TODO: fix this
+  } as unknown as RouteRecordRaw,
+
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    redirect: '/'
+  }
 ]
 
 const router = createRouter({

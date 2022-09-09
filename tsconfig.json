@@ -20,14 +20,14 @@
       "@models/*": ["./src/core/models/*"],
       "@repositories/*": ["./src/core/repositories/*"],
       "@core/*": ["./src/core/*"],
+      "@layouts/*": ["./src/layouts/*"],
       "@composables/*": ["./src/composables/*"],
       "@store/*": ["./src/store/*"],
       "@utils/*": ["./src/utils/*"],
       "@/*": ["./src/*"]
     },
 
-    "baseUrl": ".",
-
+    "baseUrl": "."
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
   "references": [{ "path": "./tsconfig.node.json" }]

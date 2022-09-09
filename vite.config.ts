@@ -20,6 +20,7 @@ export default defineConfig({
       '@interceptors': path.resolve(__dirname, './src/core/interceptors'),
       '@models': path.resolve(__dirname, './src/core/models'),
       '@repositories': path.resolve(__dirname, './src/core/repositories'),
+      '@layouts': path.resolve(__dirname, './src/layouts'),
       '@composables': path.resolve(__dirname, './src/composables'),
       '@store': path.resolve(__dirname, './src/store'),
       '@utils': path.resolve(__dirname, './src/utils')

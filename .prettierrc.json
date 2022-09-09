@@ -4,6 +4,7 @@
   "singleQuote": true,
   "trailingComma": "none",
   "bracketSpacing": true,
+  "printWidth": 120,
   "bracketSameLine": false,
   "arrowParens": "always",
   "vueIndentScriptAndStyle": false

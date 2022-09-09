@@ -9,22 +9,17 @@ interface Props {
 
 const { buttonClasses, autoClose = true } = defineProps<Props>()
 
-let wrapper = $ref()
+let wrapper = $ref<HTMLDivElement>()
 let menuVisible = $ref(false)
 
 function toggleMenu() {
   menuVisible = !menuVisible
 }
 
-// TODO: extract to its own directive
-useEventListener(window, 'click', (e: PointerEvent) => {
-  // TODO: fix types
-  if (
-    !(
-      wrapper == e.target ||
-      (wrapper as HTMLElement).contains(e.target as HTMLElement)
-    )
-  ) {
+useEventListener(document.documentElement, 'click', (e: PointerEvent) => {
+  const target = e.target as HTMLElement
+
+  if (!(wrapper === target || wrapper.contains(target))) {
     menuVisible = false
   }
 })
@@ -32,24 +27,19 @@ useEventListener(window, 'click', (e: PointerEvent) => {
 
 <template>
   <div ref="wrapper" class="relative inline-block">
-    <base-button
-      type="clear"
-      class="px-4"
-      :class="buttonClasses"
-      @click="toggleMenu"
-    >
+    <base-button type="clear" class="px-4" :class="buttonClasses" @click="toggleMenu">
       <slot name="buttonContent">...</slot>
     </base-button>
 
-    <!-- TODO: find a better way for top -->
-    <!-- TODO: add animation to menu -->
-    <div
-      v-if="menuVisible && $slots['menuContent']"
-      class="z-50 absolute right-0 bg-white rounded-md border border-gray-200 shadow"
-      style="top: calc(100% + 0.5rem)"
-      @click="autoClose ? (menuVisible = false) : undefined"
-    >
-      <slot name="menuContent"></slot>
-    </div>
+    <Transition>
+      <div
+        v-if="menuVisible && $slots['menuContent']"
+        class="z-50 absolute right-0 bg-white rounded border border-gray-200 shadow-sm"
+        style="top: calc(100% + 0.5rem)"
+        @click="autoClose ? (menuVisible = false) : undefined"
+      >
+        <slot name="menuContent"></slot>
+      </div>
+    </Transition>
   </div>
 </template>

@@ -1,13 +1,12 @@
 import { onMounted, onUnmounted } from 'vue'
-// TODO: composable naming convension
-// TODO: composable folders
 
-// TODO: fix types fo target and event
-export function useEventListener(
-  target: any,
+export function useEventListener<T extends HTMLElement>(
+  target: T,
   eventType: string,
-  callback: any
+  callback: (...args: any[]) => any
 ) {
+  if (!target || !target.addEventListener) return
+
   onMounted(() => target.addEventListener(eventType, callback))
   onUnmounted(() => target.removeEventListener(eventType, callback))
 }

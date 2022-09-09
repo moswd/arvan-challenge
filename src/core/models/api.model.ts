@@ -15,7 +15,7 @@ export interface ApiResponse<T> {
 export type Paginated<T, Collection extends string> = {
   [P in Collection]: T
 } & {
-  [P in Collection as `${string & P}Count`]: number
+  [P in Collection as `${P}Count`]: number
 }
 
 // export type Paginated<T> = {

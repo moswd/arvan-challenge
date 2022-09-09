@@ -9,7 +9,7 @@ export const useUserStore = defineStore(
     let token = $ref<string | undefined>()
 
     function setCreds(user: User) {
-      username = user.username // TODO: why error?
+      username = user.username
       token = user.token
     }
 
@@ -18,7 +18,7 @@ export const useUserStore = defineStore(
       token = undefined
     }
 
-    return $$({ username, token, setCreds, removeCreds }) // TODO: $$?
+    return $$({ username, token, setCreds, removeCreds })
   },
 
   {

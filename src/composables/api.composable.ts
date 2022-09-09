@@ -4,54 +4,39 @@ import { useToast } from 'vue-toastification'
 import { ApiResponse } from '@models/api.model'
 import { parseErrors } from '@utils/parseErrors'
 
-export type ApiActionFn<T, U> = (
-  input: T,
-  signal: AbortSignal
-) => Promise<ApiResponse<U>>
+export type ApiActionFn<T, U> = (input: T, signal: AbortSignal) => Promise<ApiResponse<U>>
 
-export type ApiActionCallback<T> = (data: T) => any
+export type ApiActionCallback<T> = (data: T | undefined) => any
 
-export function useApi<T, U>(
-  action: ApiActionFn<T, U>,
-  callback?: ApiActionCallback<U>,
-  notify = true
-) {
+export function useApi<T, U>(action: ApiActionFn<T, U>, callback?: ApiActionCallback<U>, notify = true) {
   let cancelController = $ref<AbortController | undefined>()
 
   let data = $ref<U | undefined>()
   let loading = $ref(false)
 
   async function attempt(input: T, abortController?: AbortController) {
-    // TODO: probably should not be done here
-    // if (cancelController) cancelController.abort()
+    if (cancelController) cancelController.abort()
 
-    cancelController =
-      abortController && !abortController.signal.aborted
-        ? abortController
-        : new AbortController()
+    cancelController = abortController && !abortController.signal.aborted ? abortController : new AbortController()
 
     loading = true
 
     try {
       const result = await action(input, cancelController.signal)
 
-      data = Object.assign({}, result.data) as RefValue<UnwrapRef<U>> // TODO: whyyy?
+      // FIXME: remove RefValue<UnwrapRef>
+      data = Object.assign({}, result.data) as RefValue<UnwrapRef<U>>
 
-      if (callback) callback(result.data as U) // TODO: why???
-
-      return result.data // TODO: promise resolve?
+      if (callback) callback(result.data)
+      return result.data
     } catch (err: any) {
-      const toast = useToast()
+      if (notify && err?.errors && err?.errors?.message?.[0] !== 'canceled') {
+        const toast = useToast()
 
-      // TODO: fix
-      if (notify) {
-        // TODO: should show a notification of cleaned up error
-        // TODO: what else?
-        if (err?.errors)
-          parseErrors(err.errors).forEach((err) => toast.error(err))
+        parseErrors(err.errors).forEach((err) => toast.error(err))
       }
 
-      return Promise.reject(err) // TODO: do we need this?
+      return Promise.reject(err)
     } finally {
       loading = false
     }

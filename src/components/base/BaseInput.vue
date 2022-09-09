@@ -14,14 +14,12 @@ interface Props {
   containerClasses?: string
 }
 
-const { modelValue, id, type, label, errors, containerClasses } =
-  defineProps<Props>()
+const { modelValue, id, type, label, errors, containerClasses } = defineProps<Props>()
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: any): void
 }>()
 
-// TODO: whats the best way to do this?
 const value = $computed({
   get() {
     return modelValue
@@ -47,7 +45,7 @@ const hasError = $computed(() => !!errors?.length)
       v-model="value"
       v-bind="$attrs"
       :name="id"
-      class="h-10 border rounded-md p-2 text-gray-700 outline-none focus:ring-1 transition"
+      class="border rounded p-2 text-tiny text-gray-700 outline-none focus:ring-1 transition"
       :class="{ 'ring-1 ring-red-300': hasError }"
     ></textarea>
 
@@ -58,21 +56,14 @@ const hasError = $computed(() => !!errors?.length)
       v-bind="$attrs"
       :type="type"
       :name="id"
-      class="h-10 border rounded-md px-2 text-gray-700 outline-none focus:ring-1 transition"
+      class="h-9 border rounded px-2 text-tiny text-gray-700 outline-none focus:ring-1 transition"
       :class="{ 'ring-1 ring-red-300': hasError }"
     />
 
     <ul v-if="hasError" class="mt-2">
-      <!-- TODO: what to do if we don't have a uniuqe key? -->
-      <li
-        v-for="(error, index) of errors"
-        :key="index"
-        class="text-sm text-red-600"
-      >
+      <li v-for="error of errors" :key="error" class="text-sm text-red-600">
         {{ error }}
       </li>
     </ul>
   </div>
 </template>
-
-<!-- TODO: check sizes and colors consistency -->

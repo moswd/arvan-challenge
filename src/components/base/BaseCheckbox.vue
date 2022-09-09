@@ -6,21 +6,19 @@ export default {
 
 <script setup lang="ts">
 interface Props {
-  modelValue: any // TODO: change type?
-  inputValue: any // TODO: change type? what's the deal with these?
+  modelValue: any
+  inputValue: any
   id: string
   label?: string
   containerClasses?: string
 }
 
-const { modelValue, inputValue, id, label, containerClasses } =
-  defineProps<Props>()
+const { modelValue, inputValue, id, label, containerClasses } = defineProps<Props>()
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: any): void
 }>()
 
-// TODO: whats the best way to do this?
 const value = $computed({
   get() {
     return modelValue
@@ -44,7 +42,7 @@ const value = $computed({
       class="outline-none focus:ring-4 transition"
     />
 
-    <label v-if="label" :for="id" class="ml-2 py-2 text-gray-600 text-sm">
+    <label v-if="label" :for="id" class="ml-2 py-2 text-gray-600 text-tiny flex-grow break-all">
       {{ label }}
     </label>
   </div>
