@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { watch } from 'vue'
 import { useRouter } from 'vue-router'
-import BaseTable from '@components/BaseTable.vue'
-import BaseMenu from '@components/BaseMenu.vue'
-import BaseButton from '@components/BaseButton.vue'
 import {
   useGetArticles,
   useDeleteArticle
 } from '@composables/articles.composable'
+import BaseTable from '@components/base/BaseTable.vue'
+import BaseMenu from '@components/base/BaseMenu.vue'
+import BaseButton from '@components/base/BaseButton.vue'
 
 const router = useRouter()
 

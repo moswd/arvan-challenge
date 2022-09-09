@@ -5,9 +5,9 @@ import useVuelidate from '@vuelidate/core'
 import { required, email } from '@vuelidate/validators'
 import { useUserStore } from '@store/user'
 import { useLogin } from '@composables/user.composable'
-import BaseInput from '@components/BaseInput.vue'
-import BaseButton from '@components/BaseButton.vue'
 import { User } from '@models/user.model'
+import BaseInput from '@components/base/BaseInput.vue'
+import BaseButton from '@components/base/BaseButton.vue'
 
 const router = useRouter()
 

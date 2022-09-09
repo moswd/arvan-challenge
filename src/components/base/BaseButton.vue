@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import BaseSpinner from '@components/BaseSpinner.vue'
+import BaseSpinner from '@components/base/BaseSpinner.vue'
 
 interface Props {
   type?: 'default' | 'success' | 'failure' | 'warning' | 'clear' // TODO: extract to enum

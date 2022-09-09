@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useEventListener } from '@composables/eventListener.composable'
-import BaseButton from '@components/BaseButton.vue'
+import BaseButton from '@components/base/BaseButton.vue'
 
 interface Props {
   buttonClasses?: string

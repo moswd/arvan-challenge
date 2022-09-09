@@ -9,10 +9,10 @@ import {
   useCreateArticle,
   useUpdateArticle
 } from '@composables/articles.composable'
-import BaseInput from '@components/BaseInput.vue'
-import BaseButton from '@components/BaseButton.vue'
-import BaseCheckbox from '@components/BaseCheckbox.vue'
-import BaseSpinner from '@components/BaseSpinner.vue'
+import BaseInput from '@components/base/BaseInput.vue'
+import BaseButton from '@components/base/BaseButton.vue'
+import BaseCheckbox from '@components/base/BaseCheckbox.vue'
+import BaseSpinner from '@components/base/BaseSpinner.vue'
 
 const router = useRouter()
 

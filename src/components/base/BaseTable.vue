@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import BaseButton from '@components/BaseButton.vue'
-import BaseSpinner from '@components/BaseSpinner.vue'
+import BaseButton from '@components/base/BaseButton.vue'
+import BaseSpinner from '@components/base/BaseSpinner.vue'
 
 interface Props {
   data?: any // TODO: change type

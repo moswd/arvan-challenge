@@ -5,7 +5,7 @@ import Signin from '@/views/SigninView.vue'
 import Signup from '@/views/SignupView.vue'
 import Dashboard from '@/views/DashboardView.vue'
 import Articles from '@/views/ArticlesView.vue'
-import ArticlesBuilder from '@/views/ArticlesBuilderView.vue'
+import ArticleBuilder from '@/views/ArticleBuilderView.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -18,12 +18,12 @@ const routes: RouteRecordRaw[] = [
       {
         name: 'CreateArticle',
         path: 'articles/create',
-        component: ArticlesBuilder
+        component: ArticleBuilder
       },
       {
         name: 'UpdateArticle',
         path: 'articles/:slug/update',
-        component: ArticlesBuilder
+        component: ArticleBuilder
       } // TODO: what case should namings have?
     ]
   },
@@ -35,9 +35,7 @@ const routes: RouteRecordRaw[] = [
     path: '/logout',
     beforeEnter() {
       const { removeCreds } = useUserStore()
-
       removeCreds()
-
       return { name: 'Signin' }
     }
   } as unknown as RouteRecordRaw // TODO: fix this

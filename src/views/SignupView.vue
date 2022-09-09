@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
+import { useRouter } from 'vue-router'
 import { faker } from '@faker-js/faker'
 import useVuelidate from '@vuelidate/core'
 import { required, email as emailValidator } from '@vuelidate/validators'
+import { User } from '@models/user.model'
 import { useUserStore } from '@store/user'
 import { useRegister } from '@composables/user.composable'
-import BaseInput from '@components/BaseInput.vue'
-import BaseButton from '@components/BaseButton.vue'
-import { User } from '@models/user.model'
-import { useRouter } from 'vue-router'
+import BaseInput from '@components/base/BaseInput.vue'
+import BaseButton from '@components/base/BaseButton.vue'
 
 const router = useRouter()
 

@@ -39,6 +39,6 @@ export class UserRepository {
     return {
       ...result,
       data: toDomainUser(result.data!.user as UserDTO)
-    } as ApiResponse<User>
+    } as ApiResponse<User> // TODO: do we need as?
   }
 }
