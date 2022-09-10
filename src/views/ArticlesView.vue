@@ -145,7 +145,7 @@ watch([$$(limit), $$(offset)], fetchData)
               </li>
 
               <li>
-                <base-button type="clear" class="w-full !justify-start" @click="initDelete(row.slug)">
+                <base-button type="clear" class="w-full !justify-start text-sm" @click="initDelete(row.slug)">
                   Delete
                 </base-button>
               </li>

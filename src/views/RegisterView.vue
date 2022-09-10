@@ -67,6 +67,8 @@ async function submit() {
       type="email"
       label="Email"
       :errors="(emailErrors as string[])"
+      :auto-focus="true"
+      @keyup.enter="submit"
     ></base-input>
 
     <base-input
@@ -76,6 +78,7 @@ async function submit() {
       label="Username"
       container-classes="mt-4"
       :errors="(usernameErrors as string[])"
+      @keyup.enter="submit"
     ></base-input>
 
     <base-input
@@ -85,6 +88,7 @@ async function submit() {
       label="Password"
       container-classes="mt-4"
       :errors="(passwordErrors as string[])"
+      @keyup.enter="submit"
     ></base-input>
 
     <base-button class="mt-4 w-full" :loading="inProcess" :disabled="inProcess" @click="submit">Register</base-button>

@@ -13,9 +13,7 @@ import BaseSpinner from '@components/base/BaseSpinner.vue'
 const router = useRouter()
 
 const { attempt: getArticleBySlug, loading: getArticleBySlugLoading, data: articleToUpdate } = $(useGetArticleBySlug())
-
 const { attempt: createArticle, loading: createArticleLoading } = $(useCreateArticle())
-
 const { attempt: updateArticle, loading: updateArticleLoading } = $(useUpdateArticle())
 
 let updateSlug = $computed(() => router.currentRoute.value.params?.slug)
@@ -41,9 +39,7 @@ const articleRules = {
 const validator = $(useVuelidate(articleRules, article))
 
 const titleErrors = $computed(() => validator.title.$errors.map((err) => err.$message))
-
 const descErrors = $computed(() => validator.desc.$errors.map((err) => err.$message))
-
 const bodyErrors = $computed(() => validator.body.$errors.map((err) => err.$message))
 
 function addTag() {
@@ -158,8 +154,10 @@ watch($$(updateSlug), fetchArticleToUpdate)
           type="text"
           label="Title"
           placeholder="Title"
+          :auto-focus="true"
           :disabled="fetchingArticleToUpdate"
           :errors="(titleErrors as string[])"
+          @keyup.enter="submit"
         ></base-input>
 
         <base-input
@@ -171,6 +169,7 @@ watch($$(updateSlug), fetchArticleToUpdate)
           container-classes="mt-4"
           :disabled="fetchingArticleToUpdate"
           :errors="(descErrors as string[])"
+          @keyup.enter="submit"
         ></base-input>
 
         <base-input
@@ -183,6 +182,7 @@ watch($$(updateSlug), fetchArticleToUpdate)
           container-classes="mt-4"
           :disabled="fetchingArticleToUpdate"
           :errors="(bodyErrors as string[])"
+          @keyup.enter="submit"
         ></base-input>
       </div>
 
