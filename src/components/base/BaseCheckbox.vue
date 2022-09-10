@@ -47,5 +47,3 @@ const value = $computed({
     </label>
   </div>
 </template>
-
-<!-- TODO: check sizes and colors consistency -->

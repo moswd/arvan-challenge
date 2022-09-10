@@ -21,7 +21,6 @@ const disabledClasses = 'bg-gray-100 border-gray-200 text-gray-400 border'
 </script>
 
 <template>
-  <!-- TODO: extract class to computed & find a better way to handle it -->
   <button
     class="h-9 px-4 rounded text-tiny transition-colors flex justify-center items-center"
     :class="disabled && type !== 'clear' ? disabledClasses : styleClasses[type]"

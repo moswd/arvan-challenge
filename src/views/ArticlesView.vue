@@ -132,7 +132,6 @@ watch([$$(limit), $$(offset)], fetchData)
       </template>
 
       <template #actions-col="{ row }">
-        <!-- TODO: too many styles for clear -->
         <base-menu>
           <template #menuContent>
             <ul>

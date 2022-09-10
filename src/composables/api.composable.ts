@@ -24,7 +24,6 @@ export function useApi<T, U>(action: ApiActionFn<T, U>, callback?: ApiActionCall
     try {
       const result = await action(input, cancelController.signal)
 
-      // FIXME: remove RefValue<UnwrapRef>
       data = Object.assign({}, result.data) as RefValue<UnwrapRef<U>>
 
       if (callback) callback(result.data)

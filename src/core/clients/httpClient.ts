@@ -17,11 +17,3 @@ export function createAxiosInstance(authenticated = true): AxiosInstance {
 
   return axiosInstance
 }
-
-// TODO: read on singleton & singleton enforcer pattern
-// https://gist.github.com/dmnsgn/6abeb1ed9111edf2e0a30511f1f968b2
-// https://gist.github.com/mariocesar/e96f6cf6cb2db213173a9c08b9a9867a
-
-// TODO: when to inject token?
-
-// TODO: why not class & singleton? is singleton bad?
